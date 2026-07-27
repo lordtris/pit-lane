@@ -8,5 +8,3 @@ peerDependencyRules:
     - vite
   allowedVersions:
     vite: "*"
-onlyBuiltDependencies:
-  - esbuild
