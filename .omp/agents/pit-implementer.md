@@ -2,7 +2,7 @@
 name: pit-implementer
 description: Implementation agent — incremental, test-first, spawns its own reviewer. Use for any implementation work across all projects.
 # NO tools — inherits all parent tools including Bifrost/GitHub MCP proxies
-# NO model — inherits your current session model; change model at session level
+model: "@task"
 spawns: pit-reviewer
 autoloadSkills: [incremental-implementation, test-driven-development, using-agent-skills]
 thinking-level: high
