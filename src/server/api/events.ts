@@ -14,6 +14,12 @@ const eventInputSchema = insertEventSchema.omit({
 
 // ─── Helpers ─────────────────────────────────────────────────────────
 
+/**
+ * Check if any row in `rows` conflicts on the natural key
+ * (eventDate, track, sessionLabel).  Matches SQLite unique-constraint
+ * semantics: NULL values are treated as distinct, so two rows where
+ * sessionLabel is NULL on either side do NOT conflict.
+ */
 function naturalKeyConflict(
   rows: Array<{ eventId?: number; track: string; sessionLabel: string | null }>,
   excludeId: number | undefined,
@@ -24,7 +30,9 @@ function naturalKeyConflict(
     (e) =>
       e.eventId !== excludeId &&
       e.track === track &&
-      (e.sessionLabel ?? null) === (sessionLabel ?? null),
+      e.sessionLabel != null &&
+      sessionLabel != null &&
+      e.sessionLabel === sessionLabel,
   );
 }
 
