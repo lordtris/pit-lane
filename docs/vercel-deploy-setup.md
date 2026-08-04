@@ -21,6 +21,21 @@ these values to the repo.
 There are two ways to gather them. Use whichever you prefer; Option 2 (CLI) is faster
 and auto-captures the IDs, but the token itself comes from the website either way.
 
+## Ways to run and deploy
+
+Three ways to test Pit Lane, from most local to production:
+
+| #   | Channel                                | When to use it                            | Command                                    |
+| --- | -------------------------------------- | ----------------------------------------- | ------------------------------------------ |
+| 1   | Local dev                              | Day-to-day iteration                      | `vp dev`                                   |
+| 2   | Local, as Vercel would run it          | Validate routing/functions before pushing | `vercel dev`                               |
+| 3   | Personal preview (your Vercel account) | Look at the deployed site on demand       | `pnpm deploy:preview`                      |
+| 4   | Production (the repo's Vercel account) | Ship a version                            | `git tag v0.1.0 && git push origin v0.1.0` |
+
+- Channels 1–3 need **no repo secrets** — they use your machine and your Vercel account.
+- Channel 4 is gated: only a `v*` tag pointing to a commit on `main` triggers it, and it
+  needs the repo's `VERCEL_*` secrets (configured by whoever manages the repo).
+
 ## Free (Hobby) plan notes
 
 Read this if your Vercel account is on the free **Hobby** plan:
@@ -196,15 +211,8 @@ If it prints your account, the token is valid. You're done.
    and `TURSO_AUTH_TOKEN` (Production + Preview). Those are read by the server at
    runtime and are separate from the CI secrets above.
 
-3. Deploy when you're ready to ship:
-
-   - **Production** — cut a release tag:
-     `git tag v0.1.0 && git push origin v0.1.0`. The `deploy-production.yml` workflow
-     builds and deploys to the production alias. Merging to `main` does **not** deploy.
-   - **Preview (on demand)** — `pnpm deploy:preview` builds and creates a one-off
-     preview URL you can look at and share. Runs only when you invoke it.
-   - **Local** — `vp dev` for day-to-day iteration; `vercel dev` after the project is
-     linked runs the app the way Vercel would, for validating before you push.
+3. To run or deploy, see the "Ways to run and deploy" table at the top of this doc
+   (local dev, local Vercel-style, personal preview, production tag).
 
 ## Notes
 

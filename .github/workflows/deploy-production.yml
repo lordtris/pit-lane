@@ -13,6 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Refuse tags not on main
+        run: |
+          git fetch origin main --depth=1
+          if ! git merge-base --is-ancestor "${GITHUB_SHA}" origin/main; then
+            echo "::error::Tag ${GITHUB_REF_NAME} does not point to a commit on main — refusing to deploy."
+            exit 1
+          fi
+
       - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: "24"
